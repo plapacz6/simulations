@@ -168,25 +168,38 @@ bool collision_1D::check() {
         min_distance = objL->get_xR_size() + objR->get_xL_size();
         if(xa < xb) {
             distance = ABS_D(xb - xa);        
-            if((min_distance - distance) >= 0) {
+            if((min_distance - distance) > 0) {
                 is = true;
                 overlap = ABS_D(min_distance - distance);
             }
         }
-        else {  //b pass thought a
+        else if((min_distance - distance) == 0) {
+            printf("%s\n", "????????? 1 ");                    
+            // overlap = 0;
+            assert(false);
+        } else {  //b pass thought a
             distance = ABS_D(xb - xa);
             overlap = distance + min_distance;
             is = true;
         }
     }
+    if(prev_xa == prev_xb) {
+        printf("%s\n", "????????? 3 ");                    
+        assert(false);
+    }
     else {
         min_distance = objL->get_xL_size() + objR->get_xR_size();
         if(xb < xa) {
             distance = ABS_D(xa - xb);        
-            if((min_distance - distance) >= 0) {
+            if((min_distance - distance) > 0) {
                 is = true;
                 overlap = ABS_D(min_distance - distance);
             }
+        }
+        else if((min_distance - distance) == 0) {
+            printf("%s\n", "????????? 2 ");                    
+            // overlap = 0;
+            assert(false);
         }
         else {  //b pass thought a
             distance = ABS_D(xa - xb);
