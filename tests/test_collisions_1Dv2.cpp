@@ -38,8 +38,8 @@ TEST(test_ball_2D, test_01) {
     EXPECT_EQ(expected_mass , b2.mass);
     EXPECT_EQ(9.0, b2.pos.x);
     EXPECT_EQ(19.0, b2.pos.y);
-    EXPECT_EQ(0.0, b2.newpos.x);
-    EXPECT_EQ(0.0, b2.newpos.y);       
+    EXPECT_EQ(9.0, b2.newpos.x);
+    EXPECT_EQ(19.0, b2.newpos.y);       
 
     b2.setPosition(19.0, 29.0);
     EXPECT_EQ(11.0, b2.get_xL_size());
@@ -49,8 +49,8 @@ TEST(test_ball_2D, test_01) {
     EXPECT_EQ(expected_mass , b2.mass);
     EXPECT_EQ(19.0, b2.pos.x);
     EXPECT_EQ(29.0, b2.pos.y);
-    EXPECT_EQ(0.0, b2.newpos.x);
-    EXPECT_EQ(0.0, b2.newpos.y);           
+    EXPECT_EQ(19.0, b2.newpos.x);
+    EXPECT_EQ(29.0, b2.newpos.y);           
 }
 
 TEST(test_wall_1D, test_01){
@@ -140,6 +140,39 @@ TEST_F(test_collision_1D, test_creation){
     EXPECT_EQ(0, c1.ol_R);
     EXPECT_EQ(-1.0, c1.collision_dt);
     EXPECT_EQ(position_y, c1.position_y);
+}
+
+TEST_F(test_collision_1D, test_check_y_dimetion_neutral){
+    double b1_right_x;
+    double b2_left_x;
+    double b1_left_x;
+    bool c1_check;
+    bool c2_check;
+    bool c3_check;
+    
+    b1_left_x = b1.get_xL_size();
+    b1.pos.x = b1_left_x + 1.0;
+    b1.newpos.x = b1_left_x - 2.0;      //movement simulation
+    // b1.speed.x = 10.0;               //not real in movement simulation, and not important here
+
+    b1.newpos.y = 100.0;
+    b1.pos.y = 100;
+    EXPECT_EQ(100.0, b1.newpos.y);
+    EXPECT_EQ(100.0, b1.pos.y);
+
+    c1.is = false;
+    c1.overlap = 0.0;
+    EXPECT_EQ(0.0, c1.overlap);
+    EXPECT_EQ(false, c1.is);
+    
+    c1_check = c1.check();
+
+    EXPECT_EQ(2.0, c1.overlap);
+    EXPECT_EQ(true, c1_check);
+    EXPECT_EQ(true, c1.is);
+
+    EXPECT_EQ(100.0, b1.newpos.y);
+    EXPECT_EQ(100.0, b1.pos.y);
 }
 
 TEST_F(test_collision_1D, test_check){

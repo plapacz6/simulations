@@ -32,8 +32,8 @@ and y perhaps similiar
 So for our object we must recalculate x and y
 */    
 void ball_2D::setPosition(sf::Vector2<double> ps) {
-    pos.x = ps.x;
-    pos.y = ps.y;
+    newpos.x = pos.x = ps.x;
+    newpos.y = pos.y = ps.y;
     float radius = shape.getRadius();
     shape.setPosition(
         sf::Vector2f(
@@ -45,8 +45,8 @@ void ball_2D::setPosition(sf::Vector2<double> ps) {
 }   
 
 void ball_2D::setPosition(double x, double y) {
-    pos.x = x;
-    pos.y = y;
+    newpos.x = pos.x = x;
+    newpos.y = pos.y = y;
     float radius = shape.getRadius();
     shape.setPosition(
         sf::Vector2f(
@@ -346,17 +346,8 @@ void animation_1D::calculate_positions() {
             first_collision.calculate_overlap_proportion();
             //5. calulating dt based on comparing that OB with distance throuout by that
             //   faster object in unit_time
-            printf("D_first_collision: objL->speed.x:%g, objR->speed.x:%g\n", first_collision.objL->speed.x, first_collision.objR->speed.x);
-            if(first_collision.objL->speed.x) {
-                dt *= first_collision.collision_dt;
-            }
-            else 
-            if(first_collision.objR->speed.x) {                
-                dt *= first_collision.ol_R / (first_collision.objR->speed.x);
-            }
-            else {
-                //dt no change if speed of both objects is 0
-            }
+            printf("D_first_collision: objL->speed.x:%g, objR->speed.x:%g\n", first_collision.objL->speed.x, first_collision.objR->speed.x);            
+            dt = first_collision.collision_dt;
 
             printf("D2a: dt: %g\n", dt );
             assert(dt <= time_unit);
